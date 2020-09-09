@@ -1,0 +1,110 @@
+'''
+NAME:
+
+Nilupul
+   |___Chinmay
+      |___Vishwa
+         |___Dhawal
+         |___Abhijit
+      |___Aamir
+   |___Gels
+      |___Peter
+      |___Waqas
+
+
+DESIGNATION:
+
+CEO
+   |___CTO
+      |___Infrastructure Head
+         |___Cloud Manager
+         |___App Manager
+      |___Application Head
+   |___HR Head
+      |___Recruitment Manager
+      |___Policy Manafger
+      
+
+BOTH:    
+
+Nilupul(CEO)
+   |___Chinmay(CTO)
+      |___Vishwa(Infrastructure Head)
+         |___Dhawal(Cloud Manager)
+         |___Abhijit(App Manager)
+      |___Aamir(Application Head)
+   |___Gels(HR Head)
+      |___Peter(Recruitment Manager)
+      |___Waqas(Policy Manafger)
+      
+'''
+class TreeNode:
+    def __init__(self,name,designation):
+        self.name=name
+        self.designation=designation
+        self.children=[]
+        self.parent=None
+    
+    def add_child(self,child):
+        child.parent=self
+        self.children.append(child)
+    
+    def print_tree(self,property_name):
+        
+        if property_name=="both":
+            value=self.name+'('+self.designation+')'
+        elif property_name=="name":
+            value=self.name
+        else:
+            value=self.designation
+            
+        s='    '*self.get_length()
+        prefix=s+'|___' if self.parent else ""
+        print(prefix+value)
+        if self.children:
+            for child in self.children:
+                child.print_tree(property_name)
+    
+    def get_length(self):
+        l=0
+        p=self.parent
+        while p:
+            l+=1
+            p=p.parent
+        return l
+            
+def build_tree():
+    #root is CEO
+    root=TreeNode("Nilupul","CEO")
+    #child of CEO is CTO
+    cto=TreeNode("Chinmay","CTO")
+
+    # CTO node
+    ir=TreeNode("Vishwa","Infrastructure Head")
+    
+    #children of IR
+    ir.add_child(TreeNode("Dhawal","Cloud Manager"))
+    ir.add_child(TreeNode("Abhijit","Application Manager"))
+    
+    #ir and aamir are the children of cto 
+    cto.add_child(ir)
+    cto.add_child(TreeNode("Aamir","Applicxation Head"))
+    
+    #HR node
+    hr=TreeNode("Gels","HR Head")
+    #children of HR
+    hr.add_child(TreeNode("Peter","Recruitment mangaer"))
+    hr.add_child(TreeNode("Waqas","Policy Manager"))
+    
+    root.add_child(cto)
+    root.add_child(hr)
+    
+    return root
+
+if __name__=='__main__':
+    root=build_tree()
+    t=int(input())
+    for i in range(t):
+        root.print_tree(input("\n name/designation/both?"))
+    
+    
