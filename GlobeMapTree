@@ -1,0 +1,121 @@
+'''
+Global Location Tree
+
+Global 
+   |___India
+         |___Gujarat
+             |___Ahemadabad
+             |___Baroda
+         |___Karnataka
+             |___Bengaluru
+             |___Mysore
+    |___USA
+       |___NEw Jersey
+          |___Princeton
+          |___Trenton
+       |___California
+           |___Sanfransisco
+           |___Mountain View
+           |___Palo Alto
+           
+printing the tree upto the given level
+
+'''
+           
+class TreeNode:
+    def __init__(self,data):
+        self.data=data
+        self.parent=None
+        self.children=[]
+    
+    def add_child(self,child):
+        child.parent=self
+        self.children.append(child)
+        
+    def get_level(self):
+        level=0
+        p=self.parent
+        while p:
+            level+=1
+            p=p.parent
+        return level
+    
+    def print_tree(self,level):
+        spaces=' '*self.get_level()*3
+        prefix=spaces+'|___' if self.parent else ''
+        if self.get_level()>level:
+            return
+        print(prefix+self.data)
+        for child in self.children:
+            child.print_tree(level)
+            
+def build_tree():
+    
+    #root node Globe
+    
+    glo=TreeNode("Global")
+    
+    #India child of Globe
+    
+    india=TreeNode("India")
+    
+    #usa another child of Globe
+    
+    usa=TreeNode("USA")
+    
+    #gujarat abd karnataka children of india and grand children of Globe
+    
+    g=TreeNode("Gujarat")
+    
+    k=TreeNode("Karnataka")
+    
+    #children of gujarat
+    
+    g.add_child(TreeNode("Ahemadabad"))
+    
+    g.add_child(TreeNode("Baroda"))
+    
+    #children of Karnataka
+    
+    k.add_child(TreeNode("Bengaluru"))
+    
+    k.add_child(TreeNode("Mysore"))
+    
+    #newjersey and california nodess
+    
+    n=TreeNode("New Jersey")
+    
+    c=TreeNode("California")
+    
+    #children of New Jersey
+    
+    n.add_child(TreeNode("Princeton"))
+    
+    n.add_child(TreeNode("Trenton"))
+    
+    #children of California
+    
+    c.add_child(TreeNode("San Francisco"))
+    
+    c.add_child(TreeNode("Mountain View"))
+    
+    c.add_child(TreeNode("Palo Alto"))
+    
+    #usa chidlren
+    usa.add_child(c)
+    
+    usa.add_child(n)
+    
+    #india chikdren
+    india.add_child(g)
+    india.add_child(k)
+    
+    #globe children
+    glo.add_child(india)
+    glo.add_child(usa)
+    
+    return glo
+    
+if __name__=='__main__':
+    root=build_tree()
+    root.print_tree(4)
