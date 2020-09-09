@@ -1,0 +1,84 @@
+#GENERAL TREE IN PYTHON
+'''
+electronics
+   ----laptop
+      ----mac
+      ----windows
+   ----mobile
+      ----android
+      ----iphone
+   ----TV
+      ----Lg
+      ----sony
+'''
+
+class TreeNode:
+    
+    def __init__(self,data):
+        self.data=data
+        self.children=[] #no child nodes that is only one node
+        self.parent=None #root node or initial node
+    
+    #adding child nodes to TreeNode
+    def add_child(self,child):
+        #now Current TreeNodewill beciome the parent of 'child' so
+        child.parent=self
+        self.children.append(child)
+    
+    #finging level of the node
+    def get_level(self):
+        l=0
+        p=self.parent
+        while p:
+            l+=1
+            p=p.parent
+        return l
+        
+    #printing the tree    
+    def print_tree(self):
+        
+        s=" "*self.get_level()*3
+        prefix=s+"|__" if self.parent else ""
+        
+        print(prefix+self.data)
+        for child in self.children:
+            child.print_tree()
+               
+        
+#creating a tree
+def build_tree():
+    
+    #root node
+    root=TreeNode("Electronics")
+    
+    #child of electronic is laptop,tv,----mobile
+    laptop=TreeNode("Laptop") #Laptop
+    #children of laptop are mac,windows,linux
+    laptop.add_child(TreeNode("Mac"))
+    laptop.add_child(TreeNode("Windows"))
+    laptop.add_child(TreeNode("Linux"))
+    
+    
+    mobile=TreeNode("Mobile")#Mobile
+    #children of mobile can be android,----iphone
+    mobile.add_child(TreeNode("Android"))
+    mobile.add_child(TreeNode("IPhone"))
+    
+    
+    tv=TreeNode("Television")#tv
+    #children of tv can be LG,----sony
+    tv.add_child(TreeNode("LG"))
+    tv.add_child(TreeNode("Sony"))
+   
+    #adding lapotp, mobile and tv as child nodes to root node
+    root.add_child(laptop)
+    root.add_child(mobile)
+    root.add_child(tv)
+    
+    return root
+    
+if __name__=='__main__':
+    root=build_tree()
+    root.print_tree()
+    
+
